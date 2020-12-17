@@ -1,0 +1,30 @@
+<ul class="pagination d-flex justify-content-center">
+    <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+      <a class="page-link" (click)="setPage(1)">First</a>
+    </li>
+    <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+      <a class="page-link" (click)="setPage(currentPage - 1)">Previous</a>
+    </li>
+
+    <li
+      class="page-item"
+      *ngFor="let page of getPages()"
+      [ngClass]="{ active: page === currentPage }"
+      (click)="setPage(page)"
+    >
+      <a class="page-link">{{ page }}</a>
+    </li>
+
+    <li
+      class="page-item"
+      [ngClass]="{ disabled: currentPage === totalPages }"
+    >
+      <a class="page-link" (click)="setPage(currentPage + 1)">Next</a>
+    </li>
+    <li
+      class="page-item"
+      [ngClass]="{ disabled: currentPage === totalPages }"
+    >
+      <a class="page-link" (click)="setPage(totalPages)">Last</a>
+    </li>
+  </ul>

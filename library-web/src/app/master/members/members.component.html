@@ -1,0 +1,114 @@
+<div class="content-header">
+  <h3>Members Management</h3>
+
+  <div class="actions">
+    <a class="btn btn-primary mr-2">
+      <i class="fa fa-print mr-2"></i> Export
+    </a>
+    <a class="btn btn-primary" (click)="addNew()">
+      <i class="fa fa-plus mr-2"></i> Add New
+    </a>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div [formGroup]="form" class="form">
+      <div class="form-row">
+        <div class="col">
+          <div class="form-group">
+            <label>Member Type</label>
+            <select
+              name=""
+              id=""
+              class="form-control"
+              formControlName="memberTypeId"
+            >
+              <option value="0">Select All</option>
+              <option *ngFor="let type of memberTypes" [value]="type.id">
+                {{ type.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label>Name</label>
+            <input
+              formControlName="name"
+              type="text"
+              class="form-control"
+              placeholder="Search Name"
+            />
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label>Members Per Page</label>
+            <select name="" id="" class="form-control" formControlName="size">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col">
+          <a (click)="search()" class="btn btn-primary" style="margin-top: 2em">
+            <i class="fa fa-search"></i> Search
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Result Table -->
+<table class="table mt-4">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Member Type</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let member of members">
+      <td class="align-middle">{{ member.name }}</td>
+      <td class="align-middle">{{ member.memberType.name }}</td>
+      <td class="align-middle">{{ member.email }}</td>
+      <td class="align-middle">{{ member.phone }}</td>
+      <td class="align-middle">{{ member.address }}</td>
+      <td class="align-middle">
+        <a (click)="edit(member)" class="btn btn-link">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="totalPages">
+    <tr>
+      <td colspan="7">
+        <app-pagination
+          [totalPages]="totalPages"
+          (pageChanged)="setPage($event)"
+        ></app-pagination>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<div id="editDialog" class="modal fade">
+  <app-member-edit
+    [data]="targetData"
+    [memberTypes]="memberTypes"
+    (saveListener)="save($event)"
+  ></app-member-edit>
+</div>
